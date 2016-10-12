@@ -3,7 +3,7 @@
 //  Copyright (c) 2013 Ray Wenderlich. All rights reserved.
 
 #import "AppDelegate.h"
-
+#import "ImageSaver.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

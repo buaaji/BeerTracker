@@ -14,7 +14,8 @@
 @implementation BeerViewController
 
 - (void)viewDidLoad {
-
+	self.beerNotesView.layer.borderColor = [UIColor colorWithWhite:0.667 alpha:0.500].CGColor;
+	self.beerNotesView.layer.borderWidth = 1.0f;
 }
 
 - (void)setImageForBeer:(UIImage*)img {

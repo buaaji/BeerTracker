@@ -9,7 +9,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *beerImage;
 @property (weak, nonatomic) IBOutlet UITextField *beerNameField;
 @property (weak, nonatomic) IBOutlet UITextView *beerNotesView;
-//@property (nonatomic) Beer *beer;
 @property (strong, nonatomic) IBOutlet AMRatingControl *ratingControl;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 @property (weak, nonatomic) IBOutlet UITableViewCell *cellOne;
