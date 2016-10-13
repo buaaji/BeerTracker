@@ -6,6 +6,8 @@
 #import "AMRating/AMRatingControl.h"
 #import "PhotoViewController.h"
 #import "ImageSaver.h"
+#import "Beer.h"
+#import "BeerDetails.h"
 
 @interface BeerViewController ()<UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 @end
@@ -16,6 +18,22 @@
 - (void)viewDidLoad {
 	self.beerNotesView.layer.borderColor = [UIColor colorWithWhite:0.667 alpha:0.500].CGColor;
 	self.beerNotesView.layer.borderWidth = 1.0f;
+    
+    if (!self.beer) {
+        self.beer = [Beer createEntity];
+    }
+    
+    if (!self.beer.beerDetails) {
+        self.beer.beerDetails = [BeerDetails createEntity];
+    }
+    
+    NSString *name = self.beer.name ? self.beer.name : @"New Beer";
+    self.title = name;
+    self.beerNameField.text = name;
+    self.beerNotesView.text = self.beer.beerDetails.note;
+    self.ratingControl.rating = [self.beer.beerDetails.rating integerValue];
+    [self.cellOne addSubview:self.ratingControl];
+    
 }
 
 - (void)setImageForBeer:(UIImage*)img {
