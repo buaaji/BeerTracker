@@ -34,6 +34,10 @@
     self.ratingControl.rating = [self.beer.beerDetails.rating integerValue];
     [self.cellOne addSubview:self.ratingControl];
     
+    if ([self.beer.beerDetails.image length] > 0) {
+        NSData *imgData = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:self.beer.beerDetails.image]];
+    }
+    
 }
 
 - (void)setImageForBeer:(UIImage*)img {
@@ -51,6 +55,7 @@
 }
 
 - (void)cancelAdd {
+    [self.beer deleteEntity];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -59,7 +64,14 @@
 }
 
 - (void)saveContext {
-
+    [[NSManagedObjectContext defaultContext] saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"You successfully saved your context");
+        }
+        else if (error) {
+            NSLog(@"Error saving context: %@", error.description);
+        }
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -85,7 +97,7 @@
 
 // Updates rating
 - (void)updateRating {
-	
+    self.beer.beerDetails.rating = @(self.ratingControl.rating);
 }
 
 #pragma mark - TextField & TextView Delegate
@@ -96,13 +108,14 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	if ([textField.text length] > 0) {
 		self.title     = textField.text;
+        self.beer.name = textField.text;
 	}
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
 	[textView resignFirstResponder];
 	if ([textView.text length] > 0) {
-		
+        self.beer.beerDetails.note = textView.text;
 	}
 }
 
@@ -123,7 +136,17 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-	[picker dismissViewControllerAnimated:YES completion:nil];
+    // 1. Grab image and save to disk
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    // 2. Remove old image if present
+    if (self.beer.beerDetails.image) {
+        [ImageSaver deleteImageAtPath:self.beer.beerDetails.image];
+    }
+    // 3. Save the image
+    if ([ImageSaver saveImageToDisk:image andToBeer:self.beer]) {
+        [self setImageForBeer:image];
+    }
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIActionSheet Delegate
