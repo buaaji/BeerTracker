@@ -33,6 +33,20 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
     
     [self fetchAllBeers];
 	[self.tableView reloadData];
+    
+    
+    NSString *username = @"davidji";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *object = [userDefaults objectForKey:username];
+    if (object == nil) {
+        object = [[NSMutableDictionary alloc] init];
+        [object setValue:@35 forKey:@"age"];
+        [object setValue:@"male" forKey:@"gender"];
+        [userDefaults setObject:object forKey:username];
+    }
+    else {
+        NSLog(@"object...");
+    }
 }
 
 - (void)viewDidLoad {
