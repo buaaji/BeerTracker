@@ -38,6 +38,7 @@
         NSData *imgData = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:self.beer.beerDetails.image]];
     }
     
+    NSKeyedArchiver
 }
 
 - (void)setImageForBeer:(UIImage*)img {
