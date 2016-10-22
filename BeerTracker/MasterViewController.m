@@ -34,18 +34,29 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
     [self fetchAllBeers];
 	[self.tableView reloadData];
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    documentDirectory = [documentDirectory stringByAppendingPathComponent:@"private documents"];
+    documentDirectory = [documentDirectory stringByAppendingPathComponent:@"scarybugs"];
+    NSError *error;
+    [[NSFileManager defaultManager] createDirectoryAtPath:documentDirectory withIntermediateDirectories:YES attributes:nil error:&error];
+    NSString *dataPath = [documentDirectory stringByAppendingPathComponent:@"data.abc"];
     
-    NSString *username = @"davidji";
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *object = [userDefaults objectForKey:username];
-    if (object == nil) {
-        object = [[NSMutableDictionary alloc] init];
-        [object setValue:@35 forKey:@"age"];
-        [object setValue:@"male" forKey:@"gender"];
-        [userDefaults setObject:object forKey:username];
-    }
-    else {
-        NSLog(@"object...");
+    /*
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:@"hello world" forKey:@"1"];
+    [archiver encodeObject:@"Saturday" forKey:@"2"];
+    [archiver finishEncoding];
+    [data writeToFile:dataPath atomically:YES];
+    */
+    
+    
+    NSData *codedData = [[NSData alloc] initWithContentsOfFile:dataPath];
+    if (codedData != nil) {
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
+        NSString *hello = [unarchiver decodeObjectForKey:@"1"];
+        NSString *saturday = [unarchiver decodeObjectForKey:@"2"];
     }
 }
 
