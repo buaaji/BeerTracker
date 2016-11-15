@@ -1,2 +1,2 @@
 defect line 1
-master line 2
+defect line 2
