@@ -1,3 +1,5 @@
 master line 1
 defect line 2
 master line 3
+master line 4
+master line 5
