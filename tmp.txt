@@ -1,8 +1,1 @@
-master line 1
-master line 2
-master line 3
-master line 4
-defect branch line 5
-hello from defect branch
-hello from master
-commit from master
+haha, this is test branch
